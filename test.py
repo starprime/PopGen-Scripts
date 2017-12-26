@@ -71,4 +71,7 @@ import time
 import datetime
 import fileDump
 
-fileDump.make_zip('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP','starMax')
+#fileDump.make_zip('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP','starMax')
+file_name=str('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP')
+
+fileDump.dropbox_up(file_name)

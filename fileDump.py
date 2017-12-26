@@ -6,6 +6,8 @@ import sys
 import shutil
 import datetime
 import zipfile
+import dropbox.auth
+
 
 access_token='cZ2_iMTY9dAAAAAAAAAAuBPJKocYhbgYAj7JIOpFwfyyMQ32qR_3MTGCXyRNiCNS'
 APP_KEY='ru5yef94wjgc2k0'
@@ -60,7 +62,7 @@ def make_zip(path,file_name):
 
 def dropbox_up(path):
     dbx=dropbox.Dropbox(access_token)
-
+    print type(dbx)
     for file in os.listdir(path):
         if file.endswith(".zip"):
             dest_path = os.path.join('/SuperAwesomeResults', file)
@@ -70,6 +72,17 @@ def dropbox_up(path):
 
             try:
                 with open(file_path,"rb") as  f:
-                    dbx.files_upload(f.read(),dest_path,mute=True)
+                    urll=dbx.files_upload(f.read(),dest_path,mute=True)
+
+                    print 'urll',type(urll)
             except Exception as err:
                 print("Failed to upload %s\n%s" % (file, err))
+
+def dropbox_new():
+
+    dbx=dropbox.Dropbox(access_token)
+    print dbx.users_get_current_account()
+
+
+
+dropbox_new()
