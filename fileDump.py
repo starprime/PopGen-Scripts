@@ -34,9 +34,12 @@ result=rootDir+"/results/Example_Input_Data"
         zipF.write(zipPath+"/"+files)
     zipF.close()
 '''
+uploaded_file=''
 
 def make_zip(path,file_name):
     ## get all the folders only from the processing directory ...
+
+    ### !! for this to work the file with job_name should be deleted
     fmt = '%Y-%m-%d-%H-%M-%S'
     timestamp = datetime.datetime.now().strftime(fmt)
     file_name=file_name+'-'+str(timestamp)

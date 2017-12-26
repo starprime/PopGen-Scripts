@@ -72,6 +72,14 @@ import datetime
 import fileDump,uploadToS3
 
 #fileDump.make_zip('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP','starMax')
-path=str('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP')
+#path=str('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP')
 
-uploadToS3.create_path(path)
+#uploadToS3.create_path(path)
+
+file_name='#info.sumitkr@gmail.com#configuration_Conneticut_SP'
+email_id = str(file_name).split("#")
+email_id = email_id[1]
+print email_id
+import sendEmail
+
+sendEmail.send_success_Email('#info.sumitkr@gmail.com#configuration_Conneticut_SP.yaml-2017-12-25-21-26-15.zip','info.sumitkr@gmail.com')

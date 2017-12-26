@@ -3,7 +3,7 @@
 import sys
 from popgen import Project
 import os,glob
-import fileDump,uploadToS3
+import fileDump,uploadToS3,sendEmail
 import datetime
 
 
@@ -18,6 +18,9 @@ def worker(path):
     ## first get the exact name of the .yaml file
     file_name=get_config_file(path)
     poc = path.split("/")
+
+    email_id = str(file_name).split("#")
+    email_id = email_id[1]
 
     print "starting processing for ::",poc[len(poc) - 1]
     ## get the absolute path of config file
@@ -36,7 +39,9 @@ def worker(path):
         print '## make zip of the output folder'
         fileDump.make_zip(path,file_name)
         print '## uploading file to S3'
-        uploadToS3.create_path(path)
+        uploadToS3.create_path(path,email_id)
+        print '## Sending Email'
+
 
     except(Exception) as error:
         print 'error - ',error
@@ -50,6 +55,9 @@ def worker(path):
         fh=open(name,"w")
         fh.write(str(stuff))
         fh.close()
+        sendEmail.send_Error_Email(name,email_id)
+
+
 
     print "ending processing for ::",poc[len(poc) - 1]
 
