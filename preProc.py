@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import zipfile
-import os
+import os,shutil
 import PopgenRun as PopgenRun
 import multiprocessing
 
@@ -31,6 +31,7 @@ while(i<k):
 
     zip_ref.extractall(filePath)
     print "filePath",filePath
+    os.remove(path)
 
     zip_ref.close()
 

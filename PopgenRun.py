@@ -3,7 +3,7 @@
 import sys
 from popgen import Project
 import os,glob
-import fileDump,uploadToS3,sendEmail
+import fileDump,uploadToS3,sendEmail,makeArchive
 import datetime
 
 
@@ -41,7 +41,8 @@ def worker(path):
         print '## uploading file to S3'
         uploadToS3.create_path(path,email_id)
         print '## Sending Email'
-
+        makeArchive.make_arhvive(path)
+        makeArchive.delete_file(path)
 
     except(Exception) as error:
         print 'error - ',error
@@ -56,7 +57,7 @@ def worker(path):
         fh.write(str(stuff))
         fh.close()
         sendEmail.send_Error_Email(name,email_id)
-
+        makeArchive.delete_file(path)
 
 
     print "ending processing for ::",poc[len(poc) - 1]

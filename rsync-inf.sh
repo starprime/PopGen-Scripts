@@ -4,6 +4,3 @@ rsync --remove-source-files -avz  -e "ssh -i /home/sumit/popgen.pem" ubuntu@ec2-
 
 /home/sumit/Desktop/scripts/./python-prime.py 
 ##/home/sumit/Desktop/scripts/./Popgen-ghost.py
-
-
-
