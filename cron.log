@@ -453,3 +453,8 @@ receiving incremental file list
 sent 20 bytes  received 56 bytes  30.40 bytes/sec
 total size is 0  speedup is 0.00
 []
+receiving incremental file list
+
+sent 20 bytes  received 56 bytes  50.67 bytes/sec
+total size is 0  speedup is 0.00
+[]
