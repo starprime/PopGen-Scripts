@@ -69,9 +69,9 @@ p.run_scenarios()
 
 import time
 import datetime
-import fileDump
+import fileDump,uploadToS3
 
 #fileDump.make_zip('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP','starMax')
-file_name=str('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP')
+path=str('/home/sumit/Desktop/Popgen-processing/ready/Conneticut_SP')
 
-fileDump.dropbox_up(file_name)
+uploadToS3.create_path(path)

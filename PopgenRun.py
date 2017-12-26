@@ -3,7 +3,7 @@
 import sys
 from popgen import Project
 import os,glob
-import fileDump
+import fileDump,uploadToS3
 import datetime
 
 
@@ -29,10 +29,14 @@ def worker(path):
         os.chdir('/')
 
         p=Project(configPath)
+        print ' ## Load Project'
         p.load_project()
+        print ' ## Run Scenerios '
         p.run_scenarios()
+        print '## make zip of the output folder'
         fileDump.make_zip(path,file_name)
-        fileDump.dropbox_up(path)
+        print '## uploading file to S3'
+        uploadToS3.create_path(path)
 
     except(Exception) as error:
         print 'error - ',error

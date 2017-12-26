@@ -60,7 +60,7 @@ def make_zip(path,file_name):
         shutil.make_archive(newPath, 'zip', newPath)
     '''
 
-def dropbox_up(path):
+'''def dropbox_up(path):
     dbx=dropbox.Dropbox(access_token)
     print type(dbx)
     for file in os.listdir(path):
@@ -77,12 +77,4 @@ def dropbox_up(path):
                     print 'urll',type(urll)
             except Exception as err:
                 print("Failed to upload %s\n%s" % (file, err))
-
-def dropbox_new():
-
-    dbx=dropbox.Dropbox(access_token)
-    print dbx.users_get_current_account()
-
-
-
-dropbox_new()
+'''
