@@ -144,9 +144,12 @@ def run():
            filetype: csv
     """
 
+    fileOb=open('configuration.yaml','r')
+
+    inp=file.read(fileOb)
 
     for j in AJ:
-        if(j.Job_Pushed==True):
+        if(j.Job_Pushed==False):
             #print j.Household_Sample_File
             Usv=str(j.user)
             #print Usv
@@ -197,9 +200,9 @@ def run():
             code['project']['synthesize'] = True
             code['project']['name'] = j.job_name
             code['project']['location'] = loc
-            code['project']['inputs']['entities'] = chr(91)+j.entities+chr(93)
+            code['project']['inputs']['entities'] = j.entities
             code['project']['inputs']['housing_entities'] = j.housing_entities
-            code['project']['inputs']['person_entities'] = j.housing_entities
+            code['project']['inputs']['person_entities'] = j.person_entities
 
             code['project']['inputs']['column_names']['hid'] = j.hid
             code['project']['inputs']['column_names']['pid'] = j.pid
@@ -234,31 +237,36 @@ def run():
 
 
             # we have to convert decimal to float
-
+	        ## for all float we have to convert them using format as by default it was converting 0.00001 to 1e-05
             #print type(float(j.ipf_tolerance))
-
-            code['project']['scenario'][0]['parameters']['ipf']['tolerance'] = float(j.ipf_tolerance)
+	    f=float(j.ipf_tolerance)
+	   
+            code['project']['scenario'][0]['parameters']['ipf']['tolerance'] = '{:f}'.format(f).rstrip('0')
             code['project']['scenario'][0]['parameters']['ipf']['iterations'] = j.iterations
 
             #print type(j.zmc)
-            code['project']['scenario'][0]['parameters']['ipf']['zero_marginal_correction'] = float(j.zmc)
+	    f=float(j.zmc)
+            code['project']['scenario'][0]['parameters']['ipf']['zero_marginal_correction'] = '{:f}'.format(f).rstrip('0')
             code['project']['scenario'][0]['parameters']['ipf']['rounding_procedure'] = j.rp
             code['project']['scenario'][0]['parameters']['ipf']['archive_performance_frequency'] = j.apf
 
             code['project']['scenario'][0]['parameters']['reweighting']['procedure'] = j.procedure
             #print type(j.rew_tolerance)
-            code['project']['scenario'][0]['parameters']['reweighting']['tolerance'] = float(j.rew_tolerance)
+	    # '{:f}'.format(f).rstrip('0')
+	    f = float(j.rew_tolerance)
+            code['project']['scenario'][0]['parameters']['reweighting']['tolerance'] = '{:f}'.format(f).rstrip('0')
             code['project']['scenario'][0]['parameters']['reweighting']['inner_iterations'] = j.inner_iterations
             code['project']['scenario'][0]['parameters']['reweighting']['outer_iterations'] = j.outer_iterations
             code['project']['scenario'][0]['parameters']['reweighting']['archive_performance_frequency'] = j.rapf
 
             #print type(j.pvalue_tolerance)
-            code['project']['scenario'][0]['parameters']['draws']['pvalue_tolerance'] = float(j.pvalue_tolerance)
+	    f = float(j.pvalue_tolerance)
+            code['project']['scenario'][0]['parameters']['draws']['pvalue_tolerance'] = '{:f}'.format(f).rstrip('0')
             code['project']['scenario'][0]['parameters']['draws']['iterations'] = j.draws_iterations
             code['project']['scenario'][0]['parameters']['draws']['seed'] = j.seed
 
             code['project']['scenario'][0]['geos_to_synthesize']['region']['ids'] = j.region_ids
-            code['project']['scenario'][0]['geos_to_synthesize']['region']['all_ids'] = j.region_ids
+            code['project']['scenario'][0]['geos_to_synthesize']['region']['all_ids'] = j.region_all_ids
 
             code['project']['scenario'][0]['geos_to_synthesize']['geo']['ids'] = j.geo_ids
             code['project']['scenario'][0]['geos_to_synthesize']['geo']['all_ids'] = j.geo_all_ids
@@ -278,7 +286,13 @@ def run():
             code['project']['scenario'][0]['outputs']['multiway'][1]['filetype'] = j.filetype_two
             code['project']['scenario'][0]['outputs']['multiway'][1]['entity'] = j.entity_two
 
-            j.Job_Pushed = False
+
+            code['project']['scenario'][0]['outputs']['multiway'][2]['variables'] = j.multiway_variables_three
+            code['project']['scenario'][0]['outputs']['multiway'][2]['filename'] = j.filename_three
+            code['project']['scenario'][0]['outputs']['multiway'][2]['filetype'] = j.filetype_three
+            code['project']['scenario'][0]['outputs']['multiway'][2]['entity'] = j.entity_three
+
+            j.Job_Pushed = True
             j.save()
 
             #print code
