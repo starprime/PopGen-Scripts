@@ -83,14 +83,46 @@ import fileDump,uploadToS3
 #import sendEmail
 
 #sendEmail.send_success_Email('#info.sumitkr@gmail.com#configuration_Conneticut_SP.yaml-2017-12-25-21-26-15.zip','info.sumitkr@gmail.com')
-
+import move_package
 import ruamel.yaml
-fileOb = open('configuration.yaml', 'r')
+#fileOb = open('configuration.yaml', 'r')
 
-inp = file.read(fileOb)
+#inp = file.read(fileOb)
+#code = ruamel.yaml.load(inp, ruamel.yaml.RoundTripLoader)
+#code['project']['synthesize'] = False
+#print code['project']['synthesize']
 
-code = ruamel.yaml.load(inp, ruamel.yaml.RoundTripLoader)
+import zipfile,os,sys
 
-code['project']['synthesize'] = False
+"""Zip the contents of an entire folder (with that folder included
+in the archive). Empty subfolders will be included in the archive
+as well.
+"""
 
-print code['project']['synthesize']
+file_name='/home/sumit/Desktop/Connecticut/file.zip'
+folder_path='/home/sumit/Desktop/Connecticut/2017-10-31 21-38-18 Connecticut TAZ Scenario'
+import makeArchive
+
+##makeArchive.make_zip(folder_path,output_path)
+
+import boto3
+import os
+import sendEmail
+# this method upload the file at given path to S3 bucket
+
+def upload_s3(file_name):
+    s3_client=boto3.client('s3')
+
+    bucket='pogen-upload'
+
+    remote_file_name = str(file_name).split("/")
+    remote_file_name = remote_file_name[len(remote_file_name) - 1]
+
+    remote_file_name = str(remote_file_name).split("#")
+    remote_file_name =  remote_file_name[len(remote_file_name) - 1]
+
+    uploaded_file=remote_file_name
+    s3_client.upload_file(file_name, bucket, remote_file_name,ExtraArgs={'StorageClass': "REDUCED_REDUNDANCY"})
+    return uploaded_file
+
+print upload_s3(file_name)

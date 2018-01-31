@@ -13,8 +13,9 @@ def upload_s3(file_name):
 
     remote_file_name = str(remote_file_name).split("#")
     remote_file_name =  remote_file_name[len(remote_file_name) - 1]
+
     uploaded_file=remote_file_name
-    s3_client.upload_file(file_name, bucket, remote_file_name)
+    s3_client.upload_file(file_name, bucket, remote_file_name,ExtraArgs={'StorageClass': "REDUCED_REDUNDANCY"})
     return uploaded_file
 
 ## this method will create the path for all the zip file present ,

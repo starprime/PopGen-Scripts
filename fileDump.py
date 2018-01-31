@@ -7,7 +7,7 @@ import shutil
 import datetime
 import zipfile
 import dropbox.auth
-
+import makeArchive
 
 access_token='cZ2_iMTY9dAAAAAAAAAAuBPJKocYhbgYAj7JIOpFwfyyMQ32qR_3MTGCXyRNiCNS'
 APP_KEY='ru5yef94wjgc2k0'
@@ -36,26 +36,38 @@ result=rootDir+"/results/Example_Input_Data"
 '''
 uploaded_file=''
 
-def make_zip(path,file_name):
+def make_archive(path,file_name):
     ## get all the folders only from the processing directory ...
 
     ### !! for this to work the file with job_name should be deleted
     fmt = '%Y-%m-%d-%H-%M-%S'
     timestamp = datetime.datetime.now().strftime(fmt)
-    file_name=file_name+'-'+str(timestamp)
 
+    file_name=file_name.replace('.yaml','')
+
+    file_name=file_name+'-'+str(timestamp)
+    ## add time stamp to the file
+
+    ## get the result directory folder
     resultDirec = [f for f in os.listdir(path) if not os.path.isfile(os.path.join(path, f))]
 
+    ## get the actual path of the result directory
     resultDirec = str(resultDirec).split("/")
     actualPath = resultDirec[len(resultDirec) - 1]
 
+
     actualPath= path+'/'+actualPath.replace('[','').replace(']','').replace('\'','')
     newPath=path+'/'+file_name
+    print 'actualPath',actualPath
+    print 'newPath',newPath
 
     os.rename(actualPath,newPath)
 
-    shutil.make_archive(newPath, 'zip', newPath)
-
+    #shutil.make_archive(newPath, 'zip', newPath)
+    op_file=path+'/'+file_name+'.zip'
+    print 'op_file',op_file
+    makeArchive.make_zip(newPath,op_file)
+    shutil.rmtree(newPath)
     '''
     for f in os.listdir(newPath):
         zipPath = newPath + "/" + f

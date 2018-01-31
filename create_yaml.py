@@ -144,9 +144,10 @@ def run():
            filetype: csv
     """
 
-    fileOb=open('configuration.yaml','r')
+    #fileOb = open('configuration.yaml', 'r')
+	
+    #inp = file.read(fileOb)
 
-    inp=file.read(fileOb)
 
     for j in AJ:
         if(j.Job_Pushed==False):
@@ -237,7 +238,7 @@ def run():
 
 
             # we have to convert decimal to float
-	        ## for all float we have to convert them using format as by default it was converting 0.00001 to 1e-05
+	    ## for all float we have to convert them using format as by default it was converting 0.00001 to 1e-05
             #print type(float(j.ipf_tolerance))
 	    f=float(j.ipf_tolerance)
 	   
@@ -286,12 +287,6 @@ def run():
             code['project']['scenario'][0]['outputs']['multiway'][1]['filetype'] = j.filetype_two
             code['project']['scenario'][0]['outputs']['multiway'][1]['entity'] = j.entity_two
 
-
-            code['project']['scenario'][0]['outputs']['multiway'][2]['variables'] = j.multiway_variables_three
-            code['project']['scenario'][0]['outputs']['multiway'][2]['filename'] = j.filename_three
-            code['project']['scenario'][0]['outputs']['multiway'][2]['filetype'] = j.filetype_three
-            code['project']['scenario'][0]['outputs']['multiway'][2]['entity'] = j.entity_three
-
             j.Job_Pushed = True
             j.save()
 
@@ -330,9 +325,9 @@ def run():
             #print file_name
             file_object.close()
 
-
+            import time
             cmnd='sed -i \'s/\'\\\'\'/\'\'/g\' '+str(file_name)
-            print 'cmnd',cmnd
+            print 'cmnd',cmnd,' time '
             call(cmnd,shell=True)
 
             move_package.zip(package_dir)

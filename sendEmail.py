@@ -24,8 +24,9 @@ def send_success_Email(content,client_email):
 
     # start TLS for security
     s.starttls()
-    fromaddr = "postme.sumit@gmail.com"
-    fromPassword = "!01Airborne"
+    fromaddr = "popgenoncloud@gmail.com"
+
+    fromPassword = "kaka12345"
     # Authentication
     s.login(fromaddr, fromPassword)
 
@@ -38,6 +39,7 @@ def send_success_Email(content,client_email):
     msg['Subject'] = "Your Popgen result "
 
     body = "https://s3.amazonaws.com/pogen-upload/"+str(content)
+    body = body+'\n This file be deleted after 48 hours from the time you have recieved this email.'
     msg.attach(MIMEText(body, 'plain'))
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -50,7 +52,7 @@ def send_success_Email(content,client_email):
 
 
 def send_Error_Email(path,client_email):
-    fromaddr = "postme.sumit@gmail.com"
+    fromaddr = "popgenoncloud@gmail.com"
 
     # instance of MIMEMultipart
     msg = MIMEMultipart()
@@ -62,10 +64,10 @@ def send_Error_Email(path,client_email):
     msg['To'] = client_email
 
     # storing the subject
-    msg['Subject'] = "Your Popgen File"
+    msg['Subject'] = "There was an error in your Popgen File"
 
     # string to store the body of the mail
-    body = "There was an error please see the attached log file"
+    body = "There was an error please see the attached log file or check your Yaml file again"
     # attach the body with the msg instance
     msg.attach(MIMEText(body, 'plain'))
 
@@ -96,7 +98,7 @@ def send_Error_Email(path,client_email):
     s.starttls()
 
     # Authentication
-    s.login(fromaddr, "!01Airborne")
+    s.login(fromaddr, "kaka12345")
 
     # Converts the Multipart msg into a string
     text = msg.as_string()

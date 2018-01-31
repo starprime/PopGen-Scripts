@@ -2,7 +2,7 @@
 
 import sys
 from popgen import Project
-import os,glob
+import os,glob,shutil
 import fileDump,uploadToS3,sendEmail,makeArchive
 import datetime
 
@@ -37,14 +37,17 @@ def worker(path):
         print ' ## Run Scenerios '
         p.run_scenarios()
         print '## make zip of the output folder'
-        fileDump.make_zip(path,file_name)
+        fileDump.make_archive(path,file_name)
         print '## uploading file to S3'
         uploadToS3.create_path(path,email_id)
         print '## Sending Email'
-        makeArchive.make_arhvive(path)
+        op_path = '/home/sumit/Desktop/Popgen-processing/archive/'+'{{ARCHIVE}}'+file_name+'.zip'
+        print 'archive path',op_path
+        makeArchive.make_zip(path,op_path)
         makeArchive.delete_file(path)
 
     except(Exception) as error:
+        shutil.copy(configPath, dir+"/error/")
         print 'error - ',error
         stuff=str(sys.stdout.flush())+str(error)
 
