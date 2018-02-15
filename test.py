@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import yaml
+from subprocess import call
+
 '''
 data = dict(
 
@@ -99,8 +101,8 @@ in the archive). Empty subfolders will be included in the archive
 as well.
 """
 
-file_name='/home/sumit/Desktop/Connecticut/file.zip'
-folder_path='/home/sumit/Desktop/Connecticut/2017-10-31 21-38-18 Connecticut TAZ Scenario'
+#file_name='/home/sumit/Desktop/Connecticut/file.zip'
+#folder_path='/home/sumit/Desktop/Connecticut/2017-10-31 21-38-18 Connecticut TAZ Scenario'
 import makeArchive
 
 ##makeArchive.make_zip(folder_path,output_path)
@@ -109,20 +111,7 @@ import boto3
 import os
 import sendEmail
 # this method upload the file at given path to S3 bucket
+import requests
+import json
 
-def upload_s3(file_name):
-    s3_client=boto3.client('s3')
-
-    bucket='pogen-upload'
-
-    remote_file_name = str(file_name).split("/")
-    remote_file_name = remote_file_name[len(remote_file_name) - 1]
-
-    remote_file_name = str(remote_file_name).split("#")
-    remote_file_name =  remote_file_name[len(remote_file_name) - 1]
-
-    uploaded_file=remote_file_name
-    s3_client.upload_file(file_name, bucket, remote_file_name,ExtraArgs={'StorageClass': "REDUCED_REDUNDANCY"})
-    return uploaded_file
-
-print upload_s3(file_name)
+makeArchive.call_rest2(5,"Yaml-Error")

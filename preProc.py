@@ -21,7 +21,8 @@ jobs=[]
 while(i<k):
     fold=allFold[i]
     print fold
-    path=dir+"/in/"+fold ## for one of the file in the IN folder
+    path=dir+"/in/"+fold
+    ## for one of the file in the IN folder
     ## extract zip content to ready folder
     zip_ref=zipfile.ZipFile(path,'r')
     ## creating seprate folder for each zip file

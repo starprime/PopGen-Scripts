@@ -21,6 +21,7 @@ def upload_s3(file_name):
 ## this method will create the path for all the zip file present ,
 
 def create_path(path,email_id):
+    uploaded_file=""
     for file in os.listdir(path):
         if file.endswith(".zip"):
             file_name=file
@@ -34,3 +35,5 @@ def create_path(path,email_id):
             except Exception as err:
                 print("Failed to upload %s\n%s" % (file, err))
 
+    uploaded_file = "https://s3.amazonaws.com/pogen-upload/"+str(uploaded_file)
+    return uploaded_file

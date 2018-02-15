@@ -45,3 +45,35 @@ def make_zip(inp,op):
                 zip_file.write(file_name)
 
         print "'%s' created successfully." % output_path
+
+def call_rest2(id,status):
+    import requests
+    import json
+    print '$### in REST '
+    print id , status
+    # specify url
+    url = 'https://www.popgencloud.com/joblist/'+str(id)+'/'
+
+    data = {
+        "job_status": str(status),
+        "op_file_url": None
+    }
+
+    # Call REST API
+    requests.put(url, data=data)
+
+
+def call_rest3(id,status,path):
+    import requests
+    print '$### in REST '
+    print id , status , path
+    # specify url
+    url = 'https://www.popgencloud.com/joblist/'+str(id)+'/'
+
+    data = {
+        "job_status": str(status),
+        "op_file_url": str(path)
+    }
+
+    # Call REST API
+    requests.put(url, data=data)
